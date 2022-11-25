@@ -14,6 +14,7 @@ namespace Ovn6_Garage
         internal void Start()
         {
             Console.WriteLine($"Start manage the garage");
+
         }
     }
 }
