@@ -8,5 +8,11 @@ namespace Ovn6_Garage
 {
     internal class Garage
     {
+        private int parkingslots;
+
+        public Garage(int parkingslots)
+        {
+            this.parkingslots = parkingslots;
+        }
     }
 }

@@ -8,5 +8,11 @@ namespace Ovn6_Garage
 {
     internal class Handler
     {
+        private Garage garage;
+
+        public Handler(Garage garage)
+        {
+            this.garage = garage;
+        }
     }
 }
