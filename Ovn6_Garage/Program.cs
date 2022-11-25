@@ -1,11 +1,14 @@
 ﻿
-
 using Ovn6_Garage;
+using Ovn6_Garage.UserInterface;
 
-Console.WriteLine($"Program executed");
+IUI ui = new UI();
+ui.Print($"Program executing");
 
 var manager = new Manager();
 
-manager.Start();
+manager.Run(ui);
 
-Console.WriteLine($"Program ended");
+
+ui.Print($"Program ended");
+

@@ -8,11 +8,17 @@ namespace Ovn6_Garage
 {
     internal class Garage
     {
-        private int parkingslots;
+        public int ParkingSlots { get; internal set; } = 0;
+        
 
-        public Garage(int parkingslots)
+        public Garage(int pSlots)
         {
-            this.parkingslots = parkingslots;
+            ParkingSlots = pSlots;
+            
         }
+
+
+
+
     }
 }
