@@ -28,7 +28,7 @@ namespace Ovn6_Garage
         public void Start()
         {
             ui.Print($"VÄLKOMMEN TILL GARAGET");
-            ui.Print($"I detta garage finns det {garage.ParkingSpots} platser\n\n");
+            ui.Print($"I detta garage finns det {garage.ParkingSpots.Count} platser\n\n");
             ui.Print($"Vill du köra in fordon? \t(In)");
             ui.Print($"Vill du köra ut fordon? \t(Ut)");
             ui.Print($"Vill du avsluta dagen? \t\t(Q)\n\n");

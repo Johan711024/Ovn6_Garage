@@ -9,7 +9,7 @@ namespace Ovn6_Garage
 {
     internal class Garage<T> where T : Vehicle
     {
-        public LimitedList<int> ParkingSpots { get; }
+        public LimitedList<int> ParkingSpots { get; internal set; }
 
         
 
@@ -22,7 +22,7 @@ namespace Ovn6_Garage
             
             ParkingSpots = new LimitedList<int>(pSpots);
 
-            Vehicles = new List<Vehicle>();
+            Vehicles = new List<Vehicle>();   //ToDo: Här ska listan istället göras till en Array med begränsade platser dvs antalet sätts till Parkingspots
 
             
             
