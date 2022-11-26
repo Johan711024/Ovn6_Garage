@@ -22,7 +22,7 @@ namespace Ovn6_Garage
             
             ParkingSpots = new LimitedList<int>(pSpots);
 
-            vehicles = new List<Vehicle>();
+            Vehicles = new List<Vehicle>();
 
             
             

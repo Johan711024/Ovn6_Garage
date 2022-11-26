@@ -1,4 +1,5 @@
 ﻿using Ovn6_Garage.UserInterface;
+using Ovn6_Garage.Vehicles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ namespace Ovn6_Garage
     internal class Manager
     {
         private Handler handler = null!;
-        private Garage garage = null!;
+        private Garage<Vehicle> garage = null!;
         private IUI ui = null!;
 
 
@@ -27,7 +28,7 @@ namespace Ovn6_Garage
         public void Start()
         {
             ui.Print($"VÄLKOMMEN TILL GARAGET");
-            ui.Print($"I detta garage finns det {garage.ParkingSlots} platser\n\n");
+            ui.Print($"I detta garage finns det {garage.ParkingSpots} platser\n\n");
             ui.Print($"Vill du köra in fordon? \t(In)");
             ui.Print($"Vill du köra ut fordon? \t(Ut)");
             ui.Print($"Vill du avsluta dagen? \t\t(Q)\n\n");
@@ -37,7 +38,7 @@ namespace Ovn6_Garage
 
             do
             {
-                ui.Print($"Lediga platser just nu {handler.AvailableSlots}");
+                ui.Print($"Lediga platser just nu {handler.AvailableSpots}");
                 string input = ui.GetInput()!;
 
                 switch (input)
@@ -65,7 +66,10 @@ namespace Ovn6_Garage
         private void Initialize()
         {
             
-            garage = new Garage(10);
+            garage = new Garage<Vehicle>(5);
+            garage.Vehicles.Add(new Car(4, "red", "REG123", 5));
+            garage.Vehicles.Add(new Motorbike(2, "black", "XXX111", 2));
+            garage.Vehicles.Add(new Aeroplane(4, "white", "YYY222", 10.5));
             handler = new Handler(garage);
         }
         
