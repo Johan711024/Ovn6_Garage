@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LimitedList;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,14 +7,24 @@ using System.Threading.Tasks;
 
 namespace Ovn6_Garage
 {
-    internal class Garage
+    internal class Garage<T> where T : Vehicle
     {
-        public int ParkingSlots { get; internal set; } = 0;
+        public LimitedList<int> ParkingSpots { get; }
+
         
 
-        public Garage(int pSlots)
+        public List<Vehicle> Vehicles { get; set; }
+
+
+
+        public Garage(int pSpots)
         {
-            ParkingSlots = pSlots;
+            
+            ParkingSpots = new LimitedList<int>(pSpots);
+
+            vehicles = new List<Vehicle>();
+
+            
             
         }
 

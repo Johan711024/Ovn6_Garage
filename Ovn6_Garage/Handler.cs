@@ -8,28 +8,31 @@ namespace Ovn6_Garage
 {
     internal class Handler
     {
-        private Garage garage;
-        public int AvailableSlots { get; internal set; }
+        private Garage<Vehicle> garage;
+        public int AvailableSpots { get; internal set; }
+        public int MaximumSpots { get; internal set; }
 
-        public Handler(Garage garage)
+        public Handler(Garage<Vehicle> garage)
         {
             this.garage = garage;
-            AvailableSlots = garage.ParkingSlots;
+            
+            MaximumSpots = garage.ParkingSpots.Count();
+            AvailableSpots = garage.ParkingSpots.Count()-garage.Vehicles.Count;
         }
 
         internal void In()
         {
-            if (AvailableSlots >= 0 && AvailableSlots <= garage.ParkingSlots)
+            if (AvailableSpots >= 0 && AvailableSpots <= MaximumSpots)
             {
-                AvailableSlots--;
+                AvailableSpots--;
             }
         }
 
         internal void Out()
         {
-            if (AvailableSlots >= 0 && AvailableSlots <= garage.ParkingSlots)
+            if (AvailableSpots >= 0 && AvailableSpots <= MaximumSpots)
             {
-                AvailableSlots++;
+                AvailableSpots++;
             }
         }
     }
