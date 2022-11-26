@@ -19,8 +19,10 @@ namespace Ovn6_Garage
         {
             this.ui = ui;
             ui.Print($"Running...");
+
+            int ParkingSpotsInGarage = 5;
             
-            Initialize();
+            Initialize(ParkingSpotsInGarage);
             Start();
 
         }
@@ -28,10 +30,10 @@ namespace Ovn6_Garage
         public void Start()
         {
             ui.Print($"VÄLKOMMEN TILL GARAGET");
-            ui.Print($"I detta garage finns det {garage.ParkingSpots.Count} platser\n\n");
-            ui.Print($"Vill du köra in fordon? \t(In)");
-            ui.Print($"Vill du köra ut fordon? \t(Ut)");
-            ui.Print($"Vill du avsluta dagen? \t\t(Q)\n\n");
+            ui.Print($"I detta garage finns det {garage.MaximumSpots} platser\n\n");
+            ui.Print($"Kör in fordon? \t(In)");
+            ui.Print($"Kör ut fordon? \t(Ut)");
+            ui.Print($"Avsluta dagen? \t\t(Q)\n\n");
 
 
             bool quit = false;
@@ -63,14 +65,19 @@ namespace Ovn6_Garage
 
         }
 
-        private void Initialize()
+        private void Initialize(int maxParkingSpots)
         {
+            //skapar garaget med begränsat antal platser och några parkerade fordon
+            garage = new Garage<Vehicle>(maxParkingSpots);
             
-            garage = new Garage<Vehicle>(5);
-            garage.Vehicles.Add(new Car(4, "red", "REG123", 5));
-            garage.Vehicles.Add(new Motorbike(2, "black", "XXX111", 2));
-            garage.Vehicles.Add(new Aeroplane(4, "white", "YYY222", 10.5));
-            handler = new Handler(garage);
+            garage.ParkingSpots.Add(new Car(4, "red", "REG123", 5));
+            garage.ParkingSpots.Add(new Motorbike(2, "black", "XXX111", 2));
+            garage.ParkingSpots.Add(new Aeroplane(4, "white", "YYY222", 10.5));
+
+            
+
+            //skapar handler och låter handler få kontroll över garaget
+            handler = new Handler(garage, maxParkingSpots);
         }
         
     }

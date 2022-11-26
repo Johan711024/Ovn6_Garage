@@ -12,12 +12,13 @@ namespace Ovn6_Garage
         public int AvailableSpots { get; internal set; }
         public int MaximumSpots { get; internal set; }
 
-        public Handler(Garage<Vehicle> garage)
+        public Handler(Garage<Vehicle> garage, int max)
         {
             this.garage = garage;
-            
-            MaximumSpots = garage.ParkingSpots.Count();
-            AvailableSpots = garage.ParkingSpots.Count()-garage.Vehicles.Count;
+
+            MaximumSpots = max;
+            //AvailableSpots = garage.ParkingSpots.Count()-garage.ParkingSpots;
+            AvailableSpots = MaximumSpots - garage.ParkingSpots.Count();
         }
 
         internal void In()
