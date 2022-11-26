@@ -77,7 +77,7 @@ namespace Ovn6_Garage
             
 
             //skapar handler och låter handler få kontroll över garaget
-            handler = new Handler(garage, maxParkingSpots);
+            handler = new Handler(garage, maxParkingSpots, ui);
         }
         
     }
