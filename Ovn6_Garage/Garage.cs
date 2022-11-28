@@ -18,6 +18,7 @@ namespace Ovn6_Garage
 
         public int OccupiedLots => parkingLots.Length-AvailableLots();
         public bool IsFull => capacity <= OccupiedLots;
+        public bool IsEmpty => capacity == AvailableLots() ? true : false;
 
         //public T this[int index] => throw new NotImplementedException();
 

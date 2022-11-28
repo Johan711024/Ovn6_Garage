@@ -44,7 +44,7 @@ namespace Ovn6_Garage
                     case "in":
                         handler.In();                       
                         break;
-                    case "it":
+                    case "ut":
                         handler.Out();
                         break;
                     case "alla":
