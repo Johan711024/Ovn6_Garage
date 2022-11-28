@@ -10,5 +10,6 @@ namespace Ovn6_Garage.UserInterface
     {
         public string GetInput();
         public void Print(string message);
+        public void Clear();
     }
 }

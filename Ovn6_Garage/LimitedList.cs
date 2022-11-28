@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace LimitedList
+namespace Ovn6_Garage
 {
-    public class LimitedList<T> : ILimitedList<T> 
+    public class LimitedList<T> : ILimitedList<T> where T : Vehicle
     {
 
         private readonly int capacity;
@@ -26,8 +26,8 @@ namespace LimitedList
             ArgumentNullException.ThrowIfNull(newVehicle, nameof(newVehicle));
 
             if (IsFull) return false;
-            
-            for(var i = 0; i < list.Length; i++)
+
+            for (var i = 0; i < list.Length; i++)
             {
                 if (list[i] is null)
                 {
@@ -37,7 +37,7 @@ namespace LimitedList
             }
 
             return false;
-            
+
         }
 
         //public void Print(Action<T> action)
@@ -63,10 +63,7 @@ namespace LimitedList
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
-        public void Print(Action<T> action)
-        {
-            throw new NotImplementedException();
-        }
-    }
+    
+}
 
 }

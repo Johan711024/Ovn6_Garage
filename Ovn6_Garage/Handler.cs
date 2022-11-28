@@ -3,17 +3,24 @@ using Ovn6_Garage.Vehicles;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Ovn6_Garage
 {
-    internal class Handler
+    class Handler
     {
         private Garage<Vehicle> garage;
-        public int AvailableSpots { get; internal set; }
+        //public int AvailableLots { get; internal set; }
         public int MaximumSpots { get; internal set; }
         private IUI ui = null!;
+        private int parkingLotsInGarage;
+
+        public int AvailableLots => MaximumSpots - garage.OccupiedLots;//ToDo: Fungerar troligen inte pga .length inte visar upptagna platser
+
+
 
         public Handler(Garage<Vehicle> garage, int max, IUI ui)
         {
@@ -22,28 +29,31 @@ namespace Ovn6_Garage
 
             MaximumSpots = max;
             //AvailableSpots = garage.ParkingSpots.Count()-garage.ParkingSpots;
-            AvailableSpots = MaximumSpots - garage.ParkingSpots.Count();
+             
         }
 
         internal void In()
         {
-            
-            Vehicle? newVehicle = pickNewVehicle();  //Todo: hantera null
+            Vehicle? newVehicle = pickNewVehicle();  
 
             if (newVehicle != null)
             {
-                garage.ParkingSpots.Add(newVehicle);    
+                garage.Add(newVehicle); 
             }
             else
             {
                 ui.Print("Felaktig inmatning. Försök igen!");
             }
-            
-            
-            if (AvailableSpots >= 0 && AvailableSpots <= MaximumSpots)
-            {
-                AvailableSpots--;
-            }
+            //AvailableSpots = MaximumSpots - garage.ParkingSpots.Count();      
+        }
+
+        internal void Out()
+        {
+            All();
+            ui.Print("\n\nEn ska bort. Skriv RegNr");
+            string removeRegNr = ui.GetInput();
+
+            garage.Remove(removeRegNr);
         }
 
         private Vehicle pickNewVehicle()
@@ -54,13 +64,13 @@ namespace Ovn6_Garage
             switch (input)
             {
                 case "bil":
-                    return getCar();
+                    return createCar();
                 case "motorcykel":
-                    return getCar();
+                    return createMotorbike();
                 case "båt":
-                    return getCar();
+                    return createBoat();
                 case "flygplan":
-                    return getCar();
+                    return createAeroplane();
 
                 default:
                     return null!;
@@ -68,19 +78,161 @@ namespace Ovn6_Garage
             } 
         }
 
-        private Vehicle getCar()
+        private Vehicle createCar()
         {
-            return new Car(4,"grey", "NEW000",2);
+            ui.Print("Antal hjul?");
+            string hjul = ui.GetInput();
+            ui.Print("Färg?");
+            string colour = ui.GetInput();
+            ui.Print("RegNr?");
+            string regnr = ui.GetInput();
+            ui.Print("Antal säten?");
+            string seats = ui.GetInput();
+
+            return new Car(Int32.Parse(hjul),colour, regnr, Int32.Parse(seats));
+        }
+        private Vehicle createMotorbike()
+        {
+            ui.Print("Antal hjul?");
+            string hjul = ui.GetInput();
+            ui.Print("Färg?");
+            string colour = ui.GetInput();
+            ui.Print("RegNr?");
+            string regnr = ui.GetInput();
+            ui.Print("Antal cylindrar?");
+            string seats = ui.GetInput();
+
+            return new Motorbike(Int32.Parse(hjul), colour, regnr, Int32.Parse(seats));
+        }
+        private Vehicle createBoat()
+        {
+            ui.Print("Antal hjul?");
+            string hjul = ui.GetInput();
+            ui.Print("Färg?");
+            string colour = ui.GetInput();
+            ui.Print("RegNr?");
+            string regnr = ui.GetInput();
+            ui.Print("Antal motorer?");
+            string seats = ui.GetInput();
+
+            return new Boat(Int32.Parse(hjul), colour, regnr, Int32.Parse(seats));
+        }
+        private Vehicle createAeroplane()
+        {
+            ui.Print("Antal hjul?");
+            string hjul = ui.GetInput();
+            ui.Print("Färg?");
+            string colour = ui.GetInput();
+            ui.Print("RegNr?");
+            string regnr = ui.GetInput();
+            ui.Print("Längd?");
+            string seats = ui.GetInput();
+
+            return new Aeroplane(Int32.Parse(hjul), colour, regnr, Convert.ToDouble(seats));
+        }
+        
+
+        internal void All()
+        {
+
+            //foreach(Vehicle vehicle in garage)
+            //{
+            //string output = "";
+            //string x = vehicle.GetType().Name;
+
+
+            //switch (x.ToLower())
+            //{
+            //    case "car":
+            //        output = $"Sittplatser {((Car)vehicle).NoOfSeats.ToString()} stycken";
+            //        break;
+            //    case "motorbike":
+            //        output = $"Cylindervolym {((Motorbike)vehicle).CylinderVolume.ToString()} liter";
+            //        break;
+            //    case "boat":
+            //        output = $"Antal motorer {((Boat)vehicle).NoOfEngines.ToString()} stycken";
+            //        break;
+            //    case "aeroplane":
+            //        output = $"Längd {((Aeroplane)vehicle).Lenght.ToString()} meter";
+            //        break;
+            //    default:
+            //        break;
+            //}
+            //output = $"{vehicle.RegNr}\t{vehicle.Wheels} hjul\t{vehicle.Paint}\t{vehicle.GetType().Name}\t\t\t{output}";
+
+            try
+            {
+
+                for (var i = 0; i < garage.parkingLots.Length; i++)
+                {
+
+                    ui.Print(garage.parkingLots[i].Info());
+
+                }
+            }
+            catch { ui.Print("Finns inga fordon i garaget"); }
+
+
         }
 
-        internal void Out()
+        internal void Search()
         {
-            if (AvailableSpots >= 0 && AvailableSpots <= MaximumSpots)
+            ui.Print("Sök via RegNr");
+            string input = ui.GetInput();
+            bool searchHit = false;
+
+            for (var i = 0; i < garage.parkingLots.Length; i++)
             {
-                AvailableSpots++;
+                if(garage.parkingLots[i].RegNr == input)
+                {
+                    ui.Print(garage.parkingLots[i].Info());
+                    searchHit = true;
+                    break;
+                }
             }
+            if (!searchHit) ui.Print("Hittade inget");
+
+            //foreach (Vehicle vehicle in garage.ParkingSpots)
+            //{
+            //    if (vehicle.RegNr == input)
+            //    {
+            //        ui.Print($"Hittade {vehicle.RegNr}, Färg: {vehicle.Paint}");
+            //        searchHit = true;
+            //        ui.GetInput();
+            //        break;
+            //    }
+            //}
+
         }
+        internal void SearchAdvanced(string regnr = "", string type = "", string color = "")
+        {
+            ui.Print("Sök fordonstyp t ex boat, car, aeroplane, motorbike");
+            string input = ui.GetInput();
+            //bool searchHit = false;
+
+            //var q = garage.ParkingSpots.Where(x => x.GetType().Name == input);
+
+
+
+
+
+            //if (q!=null)
+            //{
+            //    ui.Print($"Det finns {(q.GetType().Name).Count()} st av typen {q.GetType().Name} i garaget");
+               
+                
+            //}
+            //else
+            //{
+            //    ui.Print("Hittade inget");
+            //}
+
+            //ui.GetInput();
+
 
         
+        
+        
+        }
     }
 }

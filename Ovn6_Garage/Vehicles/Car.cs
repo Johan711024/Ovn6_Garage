@@ -21,5 +21,10 @@ namespace Ovn6_Garage.Vehicles
         {
             return "brum";
         }
+
+        public override string Info()
+        {
+            return base.Info() + $"Number of seats: {NoOfSeats}";
+        }
     }
 }

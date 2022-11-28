@@ -22,7 +22,7 @@ namespace Ovn6_Garage
         public virtual string Info()
         {
             
-            return $"Wheels: {Wheels}, Paint: {Paint}, Number plate: {RegNr}, ";
+            return $"Type: {this.GetType().Name}, Wheels: {Wheels}, Paint: {Paint}, Number plate: {RegNr}, ";
         }
 
 

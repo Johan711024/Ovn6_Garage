@@ -11,11 +11,19 @@ namespace Ovn6_Garage.UserInterface
         public string GetInput()
         {
             return Console.ReadLine()!;
+        
         }
 
         public void Print(string message)
         {
             Console.WriteLine(message);
+           
+        }
+        public void Clear()
+        {
+            Console.Clear();
+            
+
         }
     }
 }
