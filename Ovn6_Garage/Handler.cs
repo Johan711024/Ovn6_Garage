@@ -2,6 +2,7 @@
 using Ovn6_Garage.Vehicles;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Runtime.CompilerServices;
@@ -176,9 +177,23 @@ namespace Ovn6_Garage
         {
             ui.Print("Sök fordonstyp t ex boat, car, aeroplane, motorbike");
             string input = ui.GetInput();
+            int hits=0;
             
+            for (var i = 0; i < garage.parkingLots.Length; i++)
+            {
+                if (garage.parkingLots[i] != null)
+                {
+                    if (garage.parkingLots[i].GetType().Name.ToLower() == input.ToLower())
+                    {
+                        hits++;
+                    }
+                }
+            }
 
-            int hits = garage.parkingLots.Where(x => x.GetType().Name == input).Count();
+            //Nedanstående ger null problem
+            //var hits = garage.parkingLots.Where(x => x.GetType().Name == input).Select(item => item.Paint);
+
+            
 
             if (hits > 0) { ui.Print($"hittade {hits}st {input}"); }else { ui.Print("Hittade inget"); };        
         

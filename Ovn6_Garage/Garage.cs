@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Ovn6_Garage
 {
-    public class Garage<T> where T : Vehicle
+    public class Garage<T> : IGarage<T> where T : Vehicle 
     {
         
         private readonly int capacity;
@@ -79,6 +79,6 @@ namespace Ovn6_Garage
             }
         }
 
-        //IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }
 }
