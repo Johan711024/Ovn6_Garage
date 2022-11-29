@@ -1,5 +1,6 @@
-﻿using LimitedList;
+﻿
 using Ovn6_Garage.UserInterface;
+using Ovn6_Garage.Vehicles;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,14 +15,23 @@ namespace Ovn6_Garage
     {
         
         private readonly int capacity;
-        public T[] parkingLots;
+        private T[] parkingLots;
+        private IUI ui = null!;
 
         public int OccupiedLots => parkingLots.Length-AvailableLots();
         public bool IsFull => capacity <= OccupiedLots;
         public bool IsEmpty => capacity == AvailableLots() ? true : false;
 
-        //public T this[int index] => throw new NotImplementedException();
+        
+        public Garage(int maximumParkingLots, IUI ui)
+        {
 
+            this.capacity = Math.Max(maximumParkingLots, 1); //Returnerar största talet. Ett garage måste ha 1 eller fler platser
+            parkingLots = new T[this.capacity];
+
+            this.ui = ui;
+
+        }
         public int AvailableLots()
         {
             int available=0;
@@ -32,13 +42,9 @@ namespace Ovn6_Garage
             return available;
         }
 
-        public Garage(int maximumParkingLots)
-        {
 
-            this.capacity = Math.Max(maximumParkingLots, 1); //Returnerar största talet. Ett garage måste ha 1 eller fler platser
-            parkingLots = new T[this.capacity];
 
-        }
+
         public virtual bool Add(T newVehicle)
         {
             ArgumentNullException.ThrowIfNull(newVehicle, nameof(newVehicle));
@@ -47,11 +53,11 @@ namespace Ovn6_Garage
 
             for (var i = 0; i < parkingLots.Length; i++)
             {
-                if (parkingLots[i] is null)
-                {
+                if (parkingLots[i] == null) { 
                     parkingLots[i] = newVehicle;
                     return true;
                 }
+
             }
             return false;
         }
@@ -73,9 +79,12 @@ namespace Ovn6_Garage
         {
             foreach (var parkingLot in parkingLots)
             {
-                //....... 
+                if(parkingLot is not null)
+                {
 
-                yield return parkingLot; //Yield: Creates an awaitable object that asynchronously yields control back to the current dispatcher and provides an opportunity for the dispatcher to process other events.
+                    yield return parkingLot; //Yield: Creates an awaitable object that asynchronously yields control back to the current dispatcher and provides an opportunity for the dispatcher to process other events.
+                }
+
             }
         }
 

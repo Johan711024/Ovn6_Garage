@@ -53,7 +53,7 @@ namespace Ovn6_Garage
                         handler.All();
                         break;
                     case "sök":
-                        handler.Search();
+                        handler.searchNoPlate();
                         break;
                     case "av":
                         handler.SearchAdvanced();
@@ -89,11 +89,7 @@ namespace Ovn6_Garage
         private void Initialize()
         {
             //skapar garaget med begränsat antal platser och några parkerade fordon
-            garage = new Garage<Vehicle>(parkingLotsInGarage);
-
-            //garage.ParkingSpots.Add(new Car(4, "red", "REG123", 5));
-            //garage.ParkingSpots.Add(new Motorbike(2, "black", "XXX111", 2));
-            //garage.ParkingSpots.Add(new Aeroplane(4, "white", "YYY222", 10.5));
+            garage = new Garage<Vehicle>(parkingLotsInGarage, ui);
 
             seed(garage);
             
@@ -104,12 +100,11 @@ namespace Ovn6_Garage
 
         private void seed(Garage<Vehicle> garage)
         {
-            garage.parkingLots[0] = new Car(4, "red", "aaa111", 5);
-            garage.parkingLots[1] = new Motorbike(2, "black", "bbb222", 2);
-            garage.parkingLots[4] = new Aeroplane(4, "white", "ccc333", 10.5);
-
-
-
+            
+            garage.Add(new Car(4, "red", "aaa111", 5));
+            garage.Add(new Motorbike(2, "black", "bbb222", 2));
+            garage.Add(new Aeroplane(4, "white", "ccc333", 10.5));
+            
         }
         
     }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Ovn6_Garage.UserInterface
 {
-    internal interface IUI
+    public interface IUI
     {
         public string GetInput();
         public void Print(string message);

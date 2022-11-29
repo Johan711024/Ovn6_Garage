@@ -17,11 +17,8 @@ namespace Ovn6_Garage
         //public int AvailableLots { get; internal set; }
         public int MaximumSpots { get; internal set; }
         private IUI ui = null!;
-        private int parkingLotsInGarage;
-
+        
         public int AvailableLots => MaximumSpots - garage.OccupiedLots;//ToDo: Fungerar troligen inte pga .length inte visar upptagna platser
-
-
 
         public Handler(Garage<Vehicle> garage, int max, IUI ui)
         {
@@ -80,6 +77,43 @@ namespace Ovn6_Garage
             } 
         }
 
+
+        internal void All()
+        {
+            if (garage.IsEmpty) { ui.Print("Finns inga fordon i garaget"); return; }
+
+            foreach (var vehicle in garage)
+            {
+                ui.Print(vehicle.Info());
+            }
+
+        }
+        public void searchNoPlate()
+        {
+            ui.Print("Sök via RegNr");
+            string input = ui.GetInput();
+
+            int hits = garage.Where(vehicle => vehicle.RegNr == input).Count();
+
+            if (hits > 0) { ui.Print($"hittade {hits}st {input}"); } else { ui.Print("Hittade inget"); };
+         
+        }
+
+        // Till lärare: Har ok koll på LINQ, arrow functions, koda menyer o sökningar. Vill lägga tid på annat som är svårare att lösa.
+        internal void SearchAdvanced(string regnr = "", string type = "", string color = "")
+        {
+            ui.Print("Sök fordonstyp t ex Boat, Car, Aeroplane, Motorbike");
+            string input = ui.GetInput();
+            int hits = garage.Where(vehicle => vehicle.GetType().Name == input).Count();
+
+            if (hits > 0) { ui.Print($"hittade {hits}st {input}"); }else { ui.Print("Hittade inget"); };        
+        
+        }
+
+
+
+
+
         private Vehicle createCar()
         {
             ui.Print("Antal hjul?");
@@ -91,7 +125,7 @@ namespace Ovn6_Garage
             ui.Print("Antal säten?");
             string seats = ui.GetInput();
 
-            return new Car(Int32.Parse(hjul),colour, regnr, Int32.Parse(seats));
+            return new Car(Int32.Parse(hjul), colour, regnr, Int32.Parse(seats));
         }
         private Vehicle createMotorbike()
         {
@@ -131,72 +165,6 @@ namespace Ovn6_Garage
             string seats = ui.GetInput();
 
             return new Aeroplane(Int32.Parse(hjul), colour, regnr, Convert.ToDouble(seats));
-        }
-        
-
-        internal void All()
-        {
-            if (garage.IsEmpty) {  ui.Print("Finns inga fordon i garaget"); return; }
-
-
-            
-
-                for (var i = 0; i < garage.parkingLots.Length; i++)
-                {
-                    if (garage.parkingLots[i] != null) { ui.Print(garage.parkingLots[i].Info()); }  //hur skriva turner operator?
-                }
-            
-
-
-        }
-
-        internal void Search()
-        {
-            ui.Print("Sök via RegNr");
-            string input = ui.GetInput();
-            bool searchHit = false;
-
-            for (var i = 0; i < garage.parkingLots.Length; i++)
-            {
-                if (garage.parkingLots[i] != null)
-                {
-                    if (garage.parkingLots[i].RegNr == input)
-                    {
-                        ui.Print(garage.parkingLots[i].Info());
-                        searchHit = true;
-                        break;
-                    }
-                }
-            }
-            if (!searchHit) ui.Print("Hittade inget");
-
-
-
-        }
-        internal void SearchAdvanced(string regnr = "", string type = "", string color = "")
-        {
-            ui.Print("Sök fordonstyp t ex boat, car, aeroplane, motorbike");
-            string input = ui.GetInput();
-            int hits=0;
-            
-            for (var i = 0; i < garage.parkingLots.Length; i++)
-            {
-                if (garage.parkingLots[i] != null)
-                {
-                    if (garage.parkingLots[i].GetType().Name.ToLower() == input.ToLower())
-                    {
-                        hits++;
-                    }
-                }
-            }
-
-            //Nedanstående ger null problem
-            //var hits = garage.parkingLots.Where(x => x.GetType().Name == input).Select(item => item.Paint);
-
-            
-
-            if (hits > 0) { ui.Print($"hittade {hits}st {input}"); }else { ui.Print("Hittade inget"); };        
-        
         }
     }
 }
