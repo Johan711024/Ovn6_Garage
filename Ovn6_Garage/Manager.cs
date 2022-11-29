@@ -10,15 +10,15 @@ using System.Threading.Tasks;
 
 namespace Ovn6_Garage
 {
-    internal class Manager
+    public class Manager
     {
         private Handler handler = null!;
-        private Garage<Vehicle> garage = null!;
+       // private Garage<Vehicle> garage = null!;
         private IUI ui = null!;
         private int parkingLotsInGarage;
 
 
-        internal void Run(IUI ui, int maxParkingLots=5)
+        public void Run(IUI ui, int maxParkingLots=5)
         {
             this.ui = ui;
             ui.Print($"Running...");
@@ -89,23 +89,23 @@ namespace Ovn6_Garage
         private void Initialize()
         {
             //skapar garaget med begränsat antal platser och några parkerade fordon
-            garage = new Garage<Vehicle>(parkingLotsInGarage, ui);
+          //  garage = new Garage<Vehicle>(parkingLotsInGarage, ui);
 
-            seed(garage);
+            handler.Seed();
             
 
             //skapar handler och låter handler få kontroll över garaget
-            handler = new Handler(garage, parkingLotsInGarage, ui);
+            handler = new Handler(parkingLotsInGarage, ui);
         }
 
-        private void seed(Garage<Vehicle> garage)
-        {
+        //private void seed(Garage<Vehicle> garage)
+        //{
             
-            garage.Add(new Car(4, "red", "aaa111", 5));
-            garage.Add(new Motorbike(2, "black", "bbb222", 2));
-            garage.Add(new Aeroplane(4, "white", "ccc333", 10.5));
+        //    garage.Add(new Car(4, "red", "aaa111", 5));
+        //    garage.Add(new Motorbike(2, "black", "bbb222", 2));
+        //    garage.Add(new Aeroplane(4, "white", "ccc333", 10.5));
             
-        }
+        //}
         
     }
 }

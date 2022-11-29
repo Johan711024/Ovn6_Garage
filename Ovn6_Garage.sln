@@ -5,6 +5,8 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ovn6_Garage", "Ovn6_Garage\Ovn6_Garage.csproj", "{F2C05F91-9965-49A4-A81E-888D54761988}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Ovn6_Garage_Test", "Ovn6_Garage_Test\Ovn6_Garage_Test.csproj", "{A3BBB1AD-D43F-4B40-9239-DA4D3AE0655B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{F2C05F91-9965-49A4-A81E-888D54761988}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F2C05F91-9965-49A4-A81E-888D54761988}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F2C05F91-9965-49A4-A81E-888D54761988}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3BBB1AD-D43F-4B40-9239-DA4D3AE0655B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3BBB1AD-D43F-4B40-9239-DA4D3AE0655B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3BBB1AD-D43F-4B40-9239-DA4D3AE0655B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3BBB1AD-D43F-4B40-9239-DA4D3AE0655B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

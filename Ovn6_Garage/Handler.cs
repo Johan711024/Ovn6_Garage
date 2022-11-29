@@ -11,32 +11,32 @@ using System.Threading.Tasks;
 
 namespace Ovn6_Garage
 {
-    class Handler
+    public class Handler : IHandler
     {
+        private IUI ui;
         private Garage<Vehicle> garage;
         //public int AvailableLots { get; internal set; }
-        public int MaximumSpots { get; internal set; }
-        private IUI ui = null!;
-        
+        public int MaximumSpots => garage.Capacity;
+
         public int AvailableLots => MaximumSpots - garage.OccupiedLots;//ToDo: Fungerar troligen inte pga .length inte visar upptagna platser
 
-        public Handler(Garage<Vehicle> garage, int max, IUI ui)
+        public Handler(int max, IUI ui)
         {
-            this.garage = garage;
             this.ui = ui;
+            garage = new Garage<Vehicle>(max, ui);
 
-            MaximumSpots = max;
+          //MaximumSpots = max;
             //AvailableSpots = garage.ParkingSpots.Count()-garage.ParkingSpots;
-             
+
         }
 
         internal void In()
         {
-            Vehicle? newVehicle = pickNewVehicle();  
+            Vehicle? newVehicle = pickNewVehicle();
 
             if (newVehicle != null)
             {
-                garage.Add(newVehicle); 
+                garage.Add(newVehicle);
             }
             else
             {
@@ -48,7 +48,7 @@ namespace Ovn6_Garage
         internal void Out()
         {
             All();
-            
+
             ui.Print("\n\nEn ska bort. Skriv RegNr");
             string removeRegNr = ui.GetInput();
 
@@ -73,8 +73,8 @@ namespace Ovn6_Garage
 
                 default:
                     return null!;
-                   
-            } 
+
+            }
         }
 
 
@@ -96,7 +96,7 @@ namespace Ovn6_Garage
             int hits = garage.Where(vehicle => vehicle.RegNr == input).Count();
 
             if (hits > 0) { ui.Print($"hittade {hits}st {input}"); } else { ui.Print("Hittade inget"); };
-         
+
         }
 
         // Till lärare: Har ok koll på LINQ, arrow functions, koda menyer o sökningar. Vill lägga tid på annat som är svårare att lösa.
@@ -106,8 +106,8 @@ namespace Ovn6_Garage
             string input = ui.GetInput();
             int hits = garage.Where(vehicle => vehicle.GetType().Name == input).Count();
 
-            if (hits > 0) { ui.Print($"hittade {hits}st {input}"); }else { ui.Print("Hittade inget"); };        
-        
+            if (hits > 0) { ui.Print($"hittade {hits}st {input}"); } else { ui.Print("Hittade inget"); };
+
         }
 
 
@@ -165,6 +165,13 @@ namespace Ovn6_Garage
             string seats = ui.GetInput();
 
             return new Aeroplane(Int32.Parse(hjul), colour, regnr, Convert.ToDouble(seats));
+        }
+
+        internal void Seed()
+        {
+            garage.Add(new Car(4, "red", "aaa111", 5));
+            garage.Add(new Motorbike(2, "black", "bbb222", 2));
+            garage.Add(new Aeroplane(4, "white", "ccc333", 10.5));
         }
     }
 }

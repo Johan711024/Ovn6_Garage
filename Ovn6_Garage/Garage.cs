@@ -14,20 +14,20 @@ namespace Ovn6_Garage
     public class Garage<T> : IGarage<T> where T : Vehicle 
     {
         
-        private readonly int capacity;
         private T[] parkingLots;
         private IUI ui = null!;
 
+        public  int Capacity { get; }
         public int OccupiedLots => parkingLots.Length-AvailableLots();
-        public bool IsFull => capacity <= OccupiedLots;
-        public bool IsEmpty => capacity == AvailableLots() ? true : false;
+        public bool IsFull => Capacity <= OccupiedLots;
+        public bool IsEmpty => Capacity == AvailableLots() ? true : false;
 
         
         public Garage(int maximumParkingLots, IUI ui)
         {
 
-            this.capacity = Math.Max(maximumParkingLots, 1); //Returnerar största talet. Ett garage måste ha 1 eller fler platser
-            parkingLots = new T[this.capacity];
+            Capacity = Math.Max(maximumParkingLots, 1); //Returnerar största talet. Ett garage måste ha 1 eller fler platser
+            parkingLots = new T[this.Capacity];
 
             this.ui = ui;
 
@@ -35,7 +35,7 @@ namespace Ovn6_Garage
         public int AvailableLots()
         {
             int available=0;
-            for(var i=0; i < capacity; i++)
+            for(var i=0; i < Capacity; i++)
             {
                 if (parkingLots[i] == null) available++;
             }

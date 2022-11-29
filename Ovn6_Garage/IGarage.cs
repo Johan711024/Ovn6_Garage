@@ -2,7 +2,7 @@
 {
     public interface IGarage<T> : IEnumerable<T>
     {
-        
+        int AvailableLots();
 
     }
 }
